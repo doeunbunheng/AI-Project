@@ -1,0 +1,12 @@
+.venv*
+venv/
+
+.env/
+
+lambda.pkl
+
+model.pkl
+
+.env
+
+model/

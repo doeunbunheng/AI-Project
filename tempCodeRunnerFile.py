@@ -11,7 +11,7 @@ from datetime import datetime
 st.set_page_config(
     page_title="Rice Yield Prediction System",
     layout="wide",
-    page_icon="🌾",
+    page_icon="",
     initial_sidebar_state="expanded",
 )
 
@@ -148,7 +148,7 @@ st.markdown(
 st.markdown(
     """
     <div class='main-header'>
-        <h1>🌾 Rice Yield Prediction System</h1>
+        <h1> Rice Yield Prediction System</h1>
         <p>Advanced ML-powered prediction for optimal agricultural planning</p>
     </div>
     """,
@@ -159,10 +159,10 @@ st.markdown(
 # SIDEBAR
 # ==========================================
 with st.sidebar:
-    st.markdown("### 📊 System Information")
+    st.markdown("### System Information")
     st.info(f"**Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    st.markdown("### ⚙️ About")
+    st.markdown("###  About")
     st.markdown("""
     This prediction system uses a trained machine learning model to estimate rice yield 
     based on agricultural and environmental factors.
@@ -180,13 +180,13 @@ with st.sidebar:
 def safe_load(path, description):
     """Safely load pickled files with error handling"""
     if not os.path.exists(path):
-        st.error(f"❌ **Missing file:** `{path}`\n\nCannot load {description}. "
+        st.error(f" **Missing file:** `{path}`\n\nCannot load {description}. "
                  "Please ensure all required model files are in the application directory.")
         st.stop()
     try:
         return pickle.load(open(path, "rb"))
     except Exception as e:
-        st.error(f"❌ **Error loading {description}:** {str(e)}")
+        st.error(f" **Error loading {description}:** {str(e)}")
         st.stop()
 
 
@@ -200,7 +200,7 @@ def load_model():
     try:
         lam = safe_load("lambda.pkl", "Box-Cox Lambda")
         if isinstance(lam, (list, dict)):
-            st.warning("⚠️ Box-Cox lambda contains invalid data. Using raw predictions.")
+            st.warning(" Box-Cox lambda contains invalid data. Using raw predictions.")
             lam = None
     except:
         lam = None
@@ -209,7 +209,7 @@ def load_model():
     
     # Validate feature count
     if len(selected_features) != scaler.scale_.shape[0]:
-        st.error(f"❌ **Configuration Error:** Model expects {scaler.scale_.shape[0]} features, "
+        st.error(f" **Configuration Error:** Model expects {scaler.scale_.shape[0]} features, "
                 f"but {len(selected_features)} features found.")
         st.stop()
     
@@ -235,7 +235,7 @@ def inverse_boxcox(y_bc, lam):
                 return y_bc
             return np.power(transformed, 1 / lam)
     except Exception as e:
-        st.warning(f"⚠️ Box-Cox inversion failed: {str(e)}")
+        st.warning(f" Box-Cox inversion failed: {str(e)}")
         return y_bc
 
 
@@ -243,7 +243,7 @@ def inverse_boxcox(y_bc, lam):
 # INPUT SECTION
 # ==========================================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
-st.markdown("### 📝 Input Features")
+st.markdown("###  Input Features")
 
 input_data = {}
 cols = st.columns(2)
@@ -265,7 +265,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    predict_btn = st.button("🚀 Predict Rice Yield", use_container_width=True, type="primary")
+    predict_btn = st.button(" Predict Rice Yield", use_container_width=True, type="primary")
 
 with col2:
     reset_btn = st.button("↻ Reset", use_container_width=True)
@@ -280,7 +280,7 @@ if predict_btn:
         
         # Validate inputs
         if (X_input < 0).any().any():
-            st.warning("⚠️ Some features contain negative values. Ensure all inputs are non-negative.")
+            st.warning(" Some features contain negative values. Ensure all inputs are non-negative.")
         
         # Scale features
         X_scaled = scaler.transform(X_input)
@@ -310,19 +310,19 @@ if predict_btn:
         # Display metadata
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Status", "✅ Success", delta=None)
+            st.metric("Status", " Success", delta=None)
         with col2:
             st.metric("Model Features", len(selected_features), delta=None)
         with col3:
             st.metric("Box-Cox Applied", "Yes" if lam else "No", delta=None)
         
     except Exception as e:
-        st.error(f"❌ **Prediction Failed:** {str(e)}\n\nPlease verify your inputs and try again.")
+        st.error(f" **Prediction Failed:** {str(e)}\n\nPlease verify your inputs and try again.")
 
 # ==========================================
 # MODEL DETAILS SECTION
 # ==========================================
-with st.expander("📋 Model Details & Configuration", expanded=False):
+with st.expander(" Model Details & Configuration", expanded=False):
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
@@ -336,7 +336,7 @@ with st.expander("📋 Model Details & Configuration", expanded=False):
         st.markdown("**Model Configuration:**")
         config_data = {
             "Parameter": ["Total Features", "Box-Cox Lambda", "Model Status"],
-            "Value": [len(selected_features), f"{lam:.6f}" if lam else "None", "✅ Loaded"]
+            "Value": [len(selected_features), f"{lam:.6f}" if lam else "None", " Loaded"]
         }
         st.dataframe(pd.DataFrame(config_data), use_container_width=True, hide_index=True)
     
@@ -349,7 +349,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: var(--text-secondary); font-size: 0.9em; margin-top: 20px;'>
-    <p>🌾 Rice Yield Prediction System | Agricultural ML Platform | v1.0</p>
+    <p> Rice Yield Prediction System | Agricultural ML Platform | v1.0</p>
     <p>For support or issues, please contact the system administrator.</p>
     </div>
     """,
